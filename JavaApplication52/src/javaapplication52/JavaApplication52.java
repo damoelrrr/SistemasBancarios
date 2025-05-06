@@ -1,20 +1,50 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package javaapplication52;
 
-/**
- *
- * @author usuario
- */
-public class JavaApplication52 {
+import java.util.Scanner;
 
-    /**
-     * @param args the command line arguments
-     */
+public class JavaApplication52 {
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        Scanner scan = new Scanner(System.in);
+        
+        RegistroVerificado cuenta = new RegistroVerificado();
+
+        
+        boolean sesionIniciada = false;
+
+        System.out.println("¿Ya tienes una cuenta registrada? (si/no): ");
+        String respuesta = cuenta.getScanner().nextLine();
+
+        if (respuesta.equalsIgnoreCase("si")) {
+            sesionIniciada = cuenta.iniciarSesion();
+        } else if (respuesta.equalsIgnoreCase("no")) {
+            cuenta.registrarCuenta();
+            sesionIniciada = cuenta.iniciarSesion();
+        } else {
+            System.out.println("Respuesta no válida. El programa terminará.");
+            cuenta.cerrarScanner();
+            return;
+        }
+
+        if (!sesionIniciada) {
+            System.out.println("No se pudo iniciar sesión. Terminando programa.");
+            cuenta.cerrarScanner();
+            return;
+        }
+
+        System.out.println("¿Desea modificar su registro? (sí/no):");
+        String modi = scan.nextLine();
+
+        if (modi.equalsIgnoreCase("sí")) {
+            cuenta.modificarRegistro();
+        } else if (modi.equalsIgnoreCase("no")) {
+            System.out.println("No se realizarán cambios en su registro.");
+        } else {
+            System.out.println("Opción no válida. Terminando programa.");
+        }
+
+        cuenta.cerrarScanner();
+
     }
     
 }
