@@ -7,13 +7,13 @@ public class CrearCuenta {
     private String usuarioRegistrado;
     String contrasenaRegistrada;
     final Scanner scan;
-    private String nombre;
-    private String apellido;
+    String nombre;
+     String apellido;
     private String documento;
-    private String correo;
+     String correo;
     int edad;
     private String telefono;
-    private String direccion;
+     String direccion;
 
     public CrearCuenta(String usuarioRegistrado, String contrasenaRegistrada, Scanner scan) {
         this.usuarioRegistrado = usuarioRegistrado;

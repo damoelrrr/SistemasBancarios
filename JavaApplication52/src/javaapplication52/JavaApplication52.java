@@ -32,15 +32,15 @@ public class JavaApplication52 {
             return;
         }
 
-        System.out.println("¿Desea modificar su registro? (sí/no):");
+        System.out.println("¿Desea actualizar datos personales? (si/no):");
         String modi = scan.nextLine();
 
-        if (modi.equalsIgnoreCase("sí")) {
+        if (modi.equalsIgnoreCase("si")) {
             cuenta.modificarRegistro();
         } else if (modi.equalsIgnoreCase("no")) {
             System.out.println("No se realizarán cambios en su registro.");
         } else {
-            System.out.println("Opción no válida. Terminando programa.");
+            System.out.println("Opción no válida.");
         }
 
         cuenta.cerrarScanner();
