@@ -22,7 +22,7 @@ public class JavaApplication52 {
             sesionIniciada = cuenta.iniciarSesion();
         } else {
             System.out.println("Respuesta no válida. El programa terminará.");
-            cuenta.cerrarScanner();
+            cuenta.cerrarPrincipio();
             return;
         }
 
@@ -43,6 +43,16 @@ public class JavaApplication52 {
             System.out.println("Opción no válida.");
         }
 
+        System.out.println("¿Que desea hacer?");
+        System.out.println("Transferencias entre cuentas");
+        System.out.println("Depositos ");
+        System.out.println("Retiros");
+        System.out.println("Pagos de servicios(facturas) ");
+        System.out.println("Consultar saldo");
+        System.out.println("Consultar historial de movimiento");
+        System.out.println("Solicitar prestamo ");
+        System.out.println("Regitro de pago de prestamos");
+        
         cuenta.cerrarScanner();
 
     }

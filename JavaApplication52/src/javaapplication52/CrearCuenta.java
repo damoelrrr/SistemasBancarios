@@ -4,16 +4,16 @@ import java.util.Scanner;
 
 public class CrearCuenta {
 
-    private String usuarioRegistrado;
+    String usuarioRegistrado;
     String contrasenaRegistrada;
     final Scanner scan;
     String nombre;
-     String apellido;
-    private String documento;
-     String correo;
+    String apellido;
+    String documento;
+    String correo;
     int edad;
     private String telefono;
-     String direccion;
+    String direccion;
 
     public CrearCuenta(String usuarioRegistrado, String contrasenaRegistrada, Scanner scan) {
         this.usuarioRegistrado = usuarioRegistrado;
@@ -59,6 +59,9 @@ public class CrearCuenta {
 
         System.out.print("Contraseña: ");
         contrasenaRegistrada = scan.nextLine();
+
+        System.out.println("Ingresa minimo(2.000 pesos) para poder crear la cuenta");
+        double monto;
 
         System.out.println("\nCuenta registrada exitosamente.");
 
@@ -113,6 +116,11 @@ public class CrearCuenta {
 //        }
 //    }
     public void cerrarScanner() {
+        System.out.println("Finalizando programa. Gracias por usar nuestros servicios.");
+        scan.close();
+    }
+
+    public void cerrarPrincipio() {
         scan.close();
     }
 
