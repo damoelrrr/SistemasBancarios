@@ -1,15 +1,16 @@
 package javaapplication52;
 
 import java.util.Scanner;
+import static javaapplication52.CuentaBancaria.buscarCuenta;
 
 public class JavaApplication52 {
+
     public static void main(String[] args) {
-        
+
         Scanner scan = new Scanner(System.in);
-        
+
         RegistroVerificado cuenta = new RegistroVerificado();
 
-        
         boolean sesionIniciada = false;
 
         System.out.println("¿Ya tienes una cuenta registrada? (si/no): ");
@@ -18,8 +19,15 @@ public class JavaApplication52 {
         if (respuesta.equalsIgnoreCase("si")) {
             sesionIniciada = cuenta.iniciarSesion();
         } else if (respuesta.equalsIgnoreCase("no")) {
-            cuenta.registrarCuenta();
-            sesionIniciada = cuenta.iniciarSesion();
+            System.out.println("Desea crear una cuenta(si/no)");
+            String respuest2a = cuenta.getScanner().nextLine();
+            if (respuest2a.equalsIgnoreCase("si")) {
+                cuenta.registrarCuenta();
+                sesionIniciada = cuenta.iniciarSesion();
+            } else if (respuest2a.equalsIgnoreCase("no")) {
+                cuenta.cerrarPrincipio();
+            }
+
         } else {
             System.out.println("Respuesta no válida. El programa terminará.");
             cuenta.cerrarPrincipio();
@@ -44,17 +52,99 @@ public class JavaApplication52 {
         }
 
         System.out.println("¿Que desea hacer?");
-        System.out.println("Transferencias entre cuentas");
-        System.out.println("Depositos ");
-        System.out.println("Retiros");
-        System.out.println("Pagos de servicios(facturas) ");
-        System.out.println("Consultar saldo");
-        System.out.println("Consultar historial de movimiento");
-        System.out.println("Solicitar prestamo ");
-        System.out.println("Regitro de pago de prestamos");
-        
+        System.out.println("1. Transferencias entre cuentas");
+        System.out.println("2. Depositos ");
+        System.out.println("3. Retiros");
+        System.out.println("4. Pagos de servicios(facturas) ");
+        System.out.println("5. Consultar saldo");
+        System.out.println("6. Consultar historial de movimiento");
+        System.out.println("7. Solicitar prestamo ");
+        System.out.println("8. Regitro de pago de prestamos");
+        int ine = scan.nextInt();
+        scan.nextLine();
+        switch (ine) {
+            case 1:
+                System.out.println("Escriba el numero de cuenta a la que realizara el deposito:");
+                String origenCuenta = scan.nextLine();
+
+                System.out.println("Ingrese el numero de cuenta destino:");
+                String destinoCuenta = scan.nextLine();
+
+                System.out.println("Ingrese el monto a transferir:");
+                double monto = scan.nextDouble();
+
+                CuentaBancaria origen = buscarCuenta(origenCuenta);
+                CuentaBancaria destino = buscarCuenta(destinoCuenta);
+
+                if (origen != null && destino != null) {
+                    boolean exito = origen.transferir(destino, monto);
+                    if (exito) {
+                        System.out.println("Transferencia realizada con exito.");
+                    } else {
+                        System.out.println("No se pudo realizar la transferencia.");
+                    }
+                } else {
+                    System.out.println("Una o ambas cuentas no existen.");
+                }
+                break;
+            case 2:
+
+                System.out.print("Ingrese su número de cuenta: ");
+                String numeroCuenta = scan.nextLine();
+
+                CuentaBancaria cuentaDep = buscarCuenta(numeroCuenta);
+                if (cuentaDep != null) {
+                    System.out.print("Ingrese el monto a depositar: ");
+                    double monto2 = scan.nextDouble();
+                    scan.nextLine();
+                    cuentaDep.depositar(monto2);
+                    System.out.println("Deposito exitoso.");
+                } else {
+                    System.out.println("Cuenta no encontrada.");
+                }
+            case 3:
+                System.out.print("Número de cuenta: ");
+                String cuentaRetiro = scan.nextLine();
+                CuentaBancaria cuentaR = buscarCuenta(cuentaRetiro);
+                if (cuentaR != null) {
+                    System.out.print("Monto a retirar: ");
+                    double montoRetiro = scan.nextDouble();
+                    scan.nextLine();
+                    if (cuentaR.retirar(montoRetiro)) {
+                        System.out.println("Retiro exitoso.");
+                    } else {
+                        System.out.println("No se pudo realizar el retiro.");
+                    }
+                } else {
+                    System.out.println("Cuenta no encontrada.");
+                }
+                break;
+            case 4:
+                System.out.println("Pago de facturas:");
+                String cuentaPago = scan.nextLine();
+                CuentaBancaria cuentaP = buscarCuenta(cuentaPago);
+                if (cuentaP == null) {
+                    
+                    System.out.println("Cual factura desea implementar");
+                    System.out.println("Facturas ");
+                    System.out.println("1. Agua:");
+                    System.out.println("2. Basura:");
+                    System.out.println("3. Al sueldo del presidente");
+                    System.out.println("4. Electricidad");
+                    int fac = scan.nextInt();
+                    
+                    switch (fac) {
+                        case 1:
+                            
+                            break;
+                        default:
+                            throw new AssertionError();
+                    }
+                }
+        }
+
         cuenta.cerrarScanner();
 
     }
-    
+
 }

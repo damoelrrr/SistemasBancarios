@@ -1,5 +1,6 @@
 package javaapplication52;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class CrearCuenta {
@@ -14,6 +15,8 @@ public class CrearCuenta {
     int edad;
     private String telefono;
     String direccion;
+    double monto;
+    int numeroCuenta;
 
     public CrearCuenta(String usuarioRegistrado, String contrasenaRegistrada, Scanner scan) {
         this.usuarioRegistrado = usuarioRegistrado;
@@ -39,17 +42,23 @@ public class CrearCuenta {
         System.out.println("Apellidos:");
         apellido = scan.nextLine();
 
+        System.out.print("Edad: ");
+        edad = Integer.parseInt(scan.nextLine());
+
         System.out.print("Número de documento: ");
         documento = scan.nextLine();
 
         System.out.print("Correo electrónico: ");
         correo = scan.nextLine();
 
-        System.out.print("Edad: ");
-        edad = Integer.parseInt(scan.nextLine());
-
         System.out.print("Telefono: ");
         telefono = scan.nextLine();
+        if (!telefono.matches("\\d{10}")) {
+            System.out.println("El numero de telefono debe tener exactamente 10 dígitos y ser numerico.");
+            System.exit(0);
+
+            return;
+        }
 
         System.out.print("Dirección: ");
         direccion = scan.nextLine();
@@ -60,11 +69,26 @@ public class CrearCuenta {
         System.out.print("Contraseña: ");
         contrasenaRegistrada = scan.nextLine();
 
-        System.out.println("Ingresa minimo(2.000 pesos) para poder crear la cuenta");
-        double monto;
+        System.out.println("Ingresa mínimo (2.000 pesos) para poder crear la cuenta");
 
+        try {
+            monto = scan.nextDouble();
+            scan.nextLine();
+            if (monto < 2000) {
+                System.out.println("Monto insuficiente");
+                System.exit(0);
+
+                return;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: entrada inválida para el monto.");
+            scan.nextLine();
+            return;
+        }
         System.out.println("\nCuenta registrada exitosamente.");
-
+        Random rand = new Random();
+        numeroCuenta = 100000 + new Random().nextInt(900000);
+        System.out.println("Su numero de cuenta es " + numeroCuenta);
 //        guardarDatosEnArchivo();
     }
 

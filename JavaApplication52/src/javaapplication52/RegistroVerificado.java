@@ -4,10 +4,10 @@ import javaapplication52.CrearCuenta;
 
 public class RegistroVerificado extends CrearCuenta {
 
+    private CuentaBancaria cuentaBancaria;
+
     private String correoElectronico;
-    private int edad;
     private String nuevaContraseña;
-    private String nuevaContrasena;
     private String telefono;
 
     @Override
@@ -19,9 +19,8 @@ public class RegistroVerificado extends CrearCuenta {
 
             } else {
                 System.out.println("Debe ser mayor de edad para registrar una cuenta bancaria.");
-                cerrarPrincipio(); // Aquí cerramos el Scanner si la edad no es válida
-            return;
-                
+                cerrarPrincipio();
+                return;
             }
         } catch (NumberFormatException e) {
             System.out.println("Numero no valido");
@@ -36,7 +35,7 @@ public class RegistroVerificado extends CrearCuenta {
 
         String telefono;
 
-        System.out.println("El número de teléfono debe tener exactamente 10 dígitos y ser numérico.");
+        System.out.println("El numero de teléfono debe tener exactamente 10 dígitos y ser numerico.");
 
         return null;
     }
@@ -90,43 +89,41 @@ public class RegistroVerificado extends CrearCuenta {
                 direccion = leerCampoObligatorio("Nueva direccion: ");
                 break;
             case 6:
-//                if (//algonose > 0) {
-//                    System.out.println("No puede eliminar su cuenta mientras tenga saldo disponible.");
-//                    return;
+                if (cuentaBancaria != null && cuentaBancaria.getSaldo() > 0) {
+                    System.out.println("No puede eliminar su cuenta mientras tenga saldo disponible.");
+                    return;
+                }
 
-                    System.out.println("Eliminar Cuenta");
-                    System.out.println("Desea usted eliminar la cuenta(si/no)");
-                    String cuenta = scan.nextLine();
-                    if (cuenta.equalsIgnoreCase("si")) {
-                        usuarioRegistrado = null;
-                        nombre = null;
-                        apellido = null;
-                        documento = null;
-                        correo = null;
-                        edad = 0;
-                        telefono = null;
-                        direccion = null;
-                        contrasenaRegistrada = null;
+                System.out.println("Eliminar Cuenta");
+                System.out.println("Desea usted eliminar la cuenta(si/no)");
+                String cuenta = scan.nextLine();
+                if (cuenta.equalsIgnoreCase("si")) {
+                    usuarioRegistrado = null;
+                    nombre = null;
+                    apellido = null;
+                    documento = null;
+                    correo = null;
+                    edad = 0;
+                    telefono = null;
+                    direccion = null;
+                    contrasenaRegistrada = null;
 
-                        System.out.println("Su cuenta ha sido eliminada exitosamente.");
-                    } else if (cuenta.equalsIgnoreCase("no")) {
-                        //inicio pero tiene que volver al principio
-                        System.out.println("En realizacion");
-                    } else {
-                        System.out.println("Opción no valida.");
-                    }
+                    System.out.println("Su cuenta ha sido eliminada exitosamente.");
+                } else if (cuenta.equalsIgnoreCase("no")) {
+                    System.out.println("Operacion cancelada.");
+                    
+                } else {
+                    System.out.println("Opción no valida.");
+                }
 
-                
-                default:
+            default:
                 System.out.println("Opcion no valida.");
                 break;
         }
 
         System.out.println("Informacion modificada correctamente.");
 
-        }
-
-    
+    }
 
     private String leerCampoObligatorio(String nuevo_nombre_) {
         String entrada;
@@ -151,4 +148,5 @@ public class RegistroVerificado extends CrearCuenta {
             System.out.println("Correo electrónico invalido. Intenta nuevamente.");
         } while (true);
     }
+
 }
