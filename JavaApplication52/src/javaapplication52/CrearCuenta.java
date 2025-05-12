@@ -87,8 +87,11 @@ public class CrearCuenta {
         }
         System.out.println("\nCuenta registrada exitosamente.");
         Random rand = new Random();
-        numeroCuenta = 100000 + new Random().nextInt(900000);
-        System.out.println("Su numero de cuenta es " + numeroCuenta);
+        Persona persona = new Persona(nombre, apellido, edad, documento, correo, telefono, direccion);
+        String numCuentaStr = String.valueOf(100000 + new Random().nextInt(900000));
+        CuentaBancaria cuentaNueva = new CuentaBancaria(numCuentaStr, persona, monto);
+        System.out.println("Su número de cuenta es: " + numCuentaStr);
+
 //        guardarDatosEnArchivo();
     }
 

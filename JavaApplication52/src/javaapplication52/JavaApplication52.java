@@ -16,7 +16,6 @@ public class JavaApplication52 {
 
         System.out.println("¿Ya tienes una cuenta registrada? (si/no): ");
         String respuesta = cuenta.getScanner().nextLine();
-
         if (respuesta.equalsIgnoreCase("si")) {
             sesionIniciada = cuenta.iniciarSesion();
         } else if (respuesta.equalsIgnoreCase("no")) {
@@ -52,100 +51,149 @@ public class JavaApplication52 {
             System.out.println("Opción no válida.");
         }
 
-        System.out.println("¿Que desea hacer?");
-        System.out.println("1. Transferencias entre cuentas");
-        System.out.println("2. Depositos ");
-        System.out.println("3. Retiros");
-        System.out.println("4. Pagos de servicios(facturas) ");
-        System.out.println("5. Consultar saldo");
-        System.out.println("6. Consultar historial de movimiento");
-        System.out.println("7. Solicitar prestamo ");
-        System.out.println("8. Regitro de pago de prestamos");
-        int ine = scan.nextInt();
-        scan.nextLine();
-        switch (ine) {
-            case 1:
-                System.out.println("Escriba el numero de cuenta a la que realizara el deposito:");
-                String origenCuenta = scan.nextLine();
+        while (true) {
+            System.out.println("¿Que desea hacer?");
+            System.out.println("1. Transferencias entre cuentas");
+            System.out.println("2. Depositos ");
+            System.out.println("3. Retiros");
+            System.out.println("4. Pagos de servicios(facturas) ");
+            System.out.println("5. Consultar saldo");
+            System.out.println("6. Consultar historial de movimiento");
+            System.out.println("7. Solicitar prestamo ");
+            System.out.println("8. Regitro de pago de prestamos");
+            int ine = scan.nextInt();
+            scan.nextLine();
+            switch (ine) {
+                case 1:
+                    System.out.println("Escriba el numero de cuenta a la que realizara el deposito:");
+                    String origenCuenta = scan.nextLine();
 
-                System.out.println("Ingrese el numero de cuenta destino:");
-                String destinoCuenta = scan.nextLine();
+                    System.out.println("Ingrese el numero de cuenta destino:");
+                    String destinoCuenta = scan.nextLine();
 
-                System.out.println("Ingrese el monto a transferir:");
-                double monto = scan.nextDouble();
+                    System.out.println("Ingrese el monto a transferir:");
+                    double monto = scan.nextDouble();
 
-                CuentaBancaria origen = buscarCuenta(origenCuenta);
-                CuentaBancaria destino = buscarCuenta(destinoCuenta);
+                    CuentaBancaria origen = buscarCuenta(origenCuenta);
+                    CuentaBancaria destino = buscarCuenta(destinoCuenta);
 
-                if (origen != null && destino != null) {
-                    boolean exito = sistema.transferir(origen, destino, monto);
-                    if (exito) {
-                        System.out.println("Transferencia realizada con exito.");
+                    if (origen != null && destino != null) {
+                        boolean exito = sistema.transferir(origen, destino, monto);
+                        if (exito) {
+                            System.out.println("Transferencia realizada con exito.");
+                        } else {
+                            System.out.println("No se pudo realizar la transferencia.");
+                        }
                     } else {
-                        System.out.println("No se pudo realizar la transferencia.");
+                        System.out.println("Una o ambas cuentas no existen.");
                     }
-                } else {
-                    System.out.println("Una o ambas cuentas no existen.");
-                }
-                break;
-            case 2:
+                    break;
+                case 2:
 
-                System.out.print("Ingrese su número de cuenta: ");
-                String numeroCuenta = scan.nextLine();
+                    System.out.print("Ingrese su número de cuenta: ");
+                    String numeroCuenta = scan.nextLine();
 
-                CuentaBancaria cuentaDep = buscarCuenta(numeroCuenta);
-                if (cuentaDep != null) {
-                    System.out.print("Ingrese el monto a depositar: ");
-                    double monto2 = scan.nextDouble();
-                    scan.nextLine();
-                    sistema.depositar(cuentaDep, monto2);
-                    System.out.println("Deposito exitoso.");
-                } else {
-                    System.out.println("Cuenta no encontrada.");
-                }
-            case 3:
-                System.out.print("Número de cuenta: ");
-                String cuentaRetiro = scan.nextLine();
-                CuentaBancaria cuentaR = buscarCuenta(cuentaRetiro);
-                if (cuentaR != null) {
-                    System.out.print("Monto a retirar: ");
-                    double montoRetiro = scan.nextDouble();
-                    scan.nextLine();
-                    if (sistema.retirar(cuentaR, montoRetiro)) {
-                        System.out.println("Retiro exitoso.");
+                    CuentaBancaria cuentaDep = buscarCuenta(numeroCuenta);
+                    if (cuentaDep != null) {
+                        System.out.print("Ingrese el monto a depositar: ");
+                        double monto2 = scan.nextDouble();
+                        scan.nextLine();
+                        sistema.depositar(cuentaDep, monto2);
+                        System.out.println("Deposito exitoso.");
                     } else {
-                        System.out.println("No se pudo realizar el retiro.");
+                        System.out.println("Cuenta no encontrada.");
                     }
-                } else {
-                    System.out.println("Cuenta no encontrada.");
-                }
-                break;
-            case 4:
-                System.out.println("Pago de facturas:");
-                String cuentaPago = scan.nextLine();
-                CuentaBancaria cuentaP = buscarCuenta(cuentaPago);
-                if (cuentaP == null) {
-
-                    System.out.println("Cual factura desea implementar");
-                    System.out.println("Facturas ");
-                    System.out.println("1. Agua:");
-                    System.out.println("2. Basura:");
-                    System.out.println("3. Al sueldo del presidente");
-                    System.out.println("4. Electricidad");
-                    int fac = scan.nextInt();
-
-                    switch (fac) {
-                        case 1:
-
-                            break;
-                        default:
-                            throw new AssertionError();
+                    break;
+                case 3:
+                    System.out.print("Número de cuenta: ");
+                    String cuentaRetiro = scan.nextLine();
+                    CuentaBancaria cuentaR = buscarCuenta(cuentaRetiro);
+                    if (cuentaR != null) {
+                        System.out.print("Monto a retirar: ");
+                        double montoRetiro = scan.nextDouble();
+                        scan.nextLine();
+                        if (sistema.retirar(cuentaR, montoRetiro)) {
+                            System.out.println("Retiro exitoso.");
+                        } else {
+                            System.out.println("No se pudo realizar el retiro.");
+                        }
+                    } else {
+                        System.out.println("Cuenta no encontrada.");
                     }
-                }
+                    break;
+                case 4:
+                    System.out.println("Ingrese su número de cuenta para pagar facturas:");
+                    String cuentaPago = scan.nextLine();
+                    CuentaBancaria cuentaP = buscarCuenta(cuentaPago);
+                    if (cuentaP != null) {
+
+                        while (true) {
+                            System.out.println("¿Cual factura desea implementar?");
+                            System.out.println("Facturas:");
+                            System.out.println("1. Agua");
+                            System.out.println("2. Basura");
+                            System.out.println("3. Al sueldo del presidente");
+                            System.out.println("4. Electricidad");
+                            System.out.println("5. Salir");
+
+                            int fac;
+                            try {
+                                fac = Integer.parseInt(scan.nextLine());
+                            } catch (NumberFormatException e) {
+                                System.out.println("Entrada inválida. Intente de nuevo.");
+                                continue;
+                            }
+
+                            double montoFactura = 0;
+                            boolean pagoExitoso = false;
+
+                            switch (fac) {
+                                case 1:
+                                    System.out.println("Ingrese el consumo de agua en m³:");
+                                    double consumoAgua = scan.nextDouble();
+                                    double totalAgua = consumoAgua * 2.5;
+                                    System.out.println("Total a pagar por agua: $" + totalAgua);
+                                    break;
+
+                                case 2:
+                                    System.out.println("Factura fija de recolección de basura.");
+                                    double totalBasura = 15.0;
+                                    System.out.println("Total a pagar por basura: $" + totalBasura);
+                                    break;
+
+                                case 3:
+                                    System.out.println("Contribucion voluntaria al sueldo del presidente.");
+                                    System.out.println("Ingrese cuanto desea aportar:");
+                                    double aporte = scan.nextDouble();
+                                    System.out.println("Gracias por su aporte de $" + aporte);
+                                    break;
+
+                                case 4:
+                                    System.out.println("Ingrese el consumo de electricidad en kWh:");
+                                    double consumoLuz = scan.nextDouble();
+                                    double totalLuz = consumoLuz * 0.18;
+                                    System.out.println("Total a pagar por electricidad: $" + totalLuz);
+                                    break;
+
+                                case 5:
+                                    System.out.println("Saliendo del sistema. ¡Gracias!");
+                                    scan.close();
+                                    return;
+
+                                default:
+                                    System.out.println("Opción invalida. Intente de nuevo.");
+                                    break;
+                            }
+
+                            System.out.println();
+//                        }
+                        }
+
+                    }
+                    break;
+                case 5:
+            }
+            cuenta.cerrarScanner();
         }
-
-        cuenta.cerrarScanner();
-
     }
-
 }

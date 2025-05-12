@@ -11,13 +11,13 @@ public class CuentaBancaria {
     private double saldo;
     private Persona titular;
 
-    public CuentaBancaria(String numeroCuenta) {
-        this.numeroCuenta = numeroCuenta;
-        this.titular = titular;
-        this.saldo = 0.0;
-        this.historial = new ArrayList<>();
-        cuentasRegistradas.add(this);
-    }
+    public CuentaBancaria(String numeroCuenta, Persona titular, double saldoInicial) {
+    this.numeroCuenta = numeroCuenta;
+    this.titular = titular;
+    this.saldo = saldoInicial;
+    this.historial = new ArrayList<>();
+    cuentasRegistradas.add(this);
+}
 
     public List<Transaccion> getHistorial() {
         return historial;

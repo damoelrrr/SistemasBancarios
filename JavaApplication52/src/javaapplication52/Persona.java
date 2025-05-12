@@ -11,7 +11,7 @@ public class Persona {
     private List<Persona> conexiones;
     private List<CuentaBancaria> cuentas;
 
-    public Persona(String nombre, String documento) {
+    public Persona(String nombre, String documento, int edad, String documento1, String correo, String telefono, String direccion) {
         if (nombre == null || nombre.isEmpty() || documento == null || documento.isEmpty()) {
             throw new IllegalArgumentException("Nombre y documento no pueden ser nulos o vacíos.");
         }

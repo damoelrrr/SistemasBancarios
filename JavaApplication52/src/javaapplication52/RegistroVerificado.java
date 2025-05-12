@@ -5,7 +5,6 @@ import javaapplication52.CrearCuenta;
 public class RegistroVerificado extends CrearCuenta {
 
     private CuentaBancaria cuentaBancaria;
-
     private String correoElectronico;
     private String nuevaContraseña;
     private String telefono;
