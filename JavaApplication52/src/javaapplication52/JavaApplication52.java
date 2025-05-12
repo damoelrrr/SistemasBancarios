@@ -61,6 +61,7 @@ public class JavaApplication52 {
             System.out.println("6. Consultar historial de movimiento");
             System.out.println("7. Solicitar prestamo ");
             System.out.println("8. Regitro de pago de prestamos");
+            System.out.println("9. Salir");
             int ine = scan.nextInt();
             scan.nextLine();
             switch (ine) {
@@ -192,6 +193,17 @@ public class JavaApplication52 {
                     }
                     break;
                 case 5:
+
+                case 6:
+
+                case 7:
+
+                case 8:
+
+                case 9:
+                    System.out.println("Gracias por todo, Saliendo del programa ...... ");
+                    scan.close();
+                    break;
             }
             cuenta.cerrarScanner();
         }
