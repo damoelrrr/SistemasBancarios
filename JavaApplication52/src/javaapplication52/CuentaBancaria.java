@@ -6,11 +6,10 @@ import java.util.List;
 public class CuentaBancaria {
 
     private static List<CuentaBancaria> cuentasRegistradas = new ArrayList<>();
-
+    private List<Transaccion> historial = new ArrayList<>();
     private String numeroCuenta;
     private double saldo;
     private Persona titular;
-    private List<Transaccion> historial;
 
     public CuentaBancaria(String numeroCuenta) {
         this.numeroCuenta = numeroCuenta;
@@ -18,6 +17,10 @@ public class CuentaBancaria {
         this.saldo = 0.0;
         this.historial = new ArrayList<>();
         cuentasRegistradas.add(this);
+    }
+
+    public List<Transaccion> getHistorial() {
+        return historial;
     }
 
     public static CuentaBancaria buscarCuenta(String numeroCuenta) {
@@ -49,41 +52,27 @@ public class CuentaBancaria {
         return titular;
     }
 
-    public void depositar(double monto) {
-        if (monto > 0) {
-            saldo += monto;
-            historial.add(new Transaccion("Depósito", monto, null, this));
-        } else {
-            System.out.println("El monto debe ser positivo.");
-        }
+    public static void setCuentasRegistradas(List<CuentaBancaria> cuentasRegistradas) {
+        CuentaBancaria.cuentasRegistradas = cuentasRegistradas;
     }
 
-    public boolean retirar(double monto) {
-        if (monto <= saldo && monto > 0) {
-            saldo -= monto;
-            historial.add(new Transaccion("Retiro", monto, this, null));
-            return true;
-        } else {
-            System.out.println("Saldo insuficiente o monto inválido.");
-            return false;
-        }
+    public void setHistorial(List<Transaccion> historial) {
+        this.historial = historial;
     }
 
-    public boolean transferir(CuentaBancaria destino, double monto) {
-        if (destino != null && retirar(monto)) {
-            destino.depositar(monto);
-            historial.add(new Transaccion("Transferencia", monto, this, destino));
-
-            return true;
-        } else {
-            System.out.println("Transferencia fallida.");
-            return false;
-        }
+    public void setNumeroCuenta(String numeroCuenta) {
+        this.numeroCuenta = numeroCuenta;
     }
 
-    public List<Transaccion> getHistorial() {
-        return historial;
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
+
+    public void setTitular(Persona titular) {
+        this.titular = titular;
+    }
+    
+    
 
     @Override
     public String toString() {

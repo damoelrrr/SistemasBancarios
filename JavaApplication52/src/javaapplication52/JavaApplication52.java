@@ -2,11 +2,12 @@ package javaapplication52;
 
 import java.util.Scanner;
 import static javaapplication52.CuentaBancaria.buscarCuenta;
+import javaapplication52.SistemaBancario;
 
 public class JavaApplication52 {
 
     public static void main(String[] args) {
-
+        SistemaBancario sistema = new SistemaBancario();
         Scanner scan = new Scanner(System.in);
 
         RegistroVerificado cuenta = new RegistroVerificado();
@@ -77,7 +78,7 @@ public class JavaApplication52 {
                 CuentaBancaria destino = buscarCuenta(destinoCuenta);
 
                 if (origen != null && destino != null) {
-                    boolean exito = origen.transferir(destino, monto);
+                    boolean exito = sistema.transferir(origen, destino, monto);
                     if (exito) {
                         System.out.println("Transferencia realizada con exito.");
                     } else {
@@ -97,7 +98,7 @@ public class JavaApplication52 {
                     System.out.print("Ingrese el monto a depositar: ");
                     double monto2 = scan.nextDouble();
                     scan.nextLine();
-                    cuentaDep.depositar(monto2);
+                    sistema.depositar(cuentaDep, monto2);
                     System.out.println("Deposito exitoso.");
                 } else {
                     System.out.println("Cuenta no encontrada.");
@@ -110,7 +111,7 @@ public class JavaApplication52 {
                     System.out.print("Monto a retirar: ");
                     double montoRetiro = scan.nextDouble();
                     scan.nextLine();
-                    if (cuentaR.retirar(montoRetiro)) {
+                    if (sistema.retirar(cuentaR, montoRetiro)) {
                         System.out.println("Retiro exitoso.");
                     } else {
                         System.out.println("No se pudo realizar el retiro.");
@@ -124,7 +125,7 @@ public class JavaApplication52 {
                 String cuentaPago = scan.nextLine();
                 CuentaBancaria cuentaP = buscarCuenta(cuentaPago);
                 if (cuentaP == null) {
-                    
+
                     System.out.println("Cual factura desea implementar");
                     System.out.println("Facturas ");
                     System.out.println("1. Agua:");
@@ -132,10 +133,10 @@ public class JavaApplication52 {
                     System.out.println("3. Al sueldo del presidente");
                     System.out.println("4. Electricidad");
                     int fac = scan.nextInt();
-                    
+
                     switch (fac) {
                         case 1:
-                            
+
                             break;
                         default:
                             throw new AssertionError();
