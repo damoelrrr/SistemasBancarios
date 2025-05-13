@@ -214,6 +214,23 @@ public class JavaApplication52 {
                     break;
 
                 case 6:
+                    System.out.print("Ingrese el número de cuenta para ver el historial: ");
+                    String cuentaHistorial = scan.nextLine();
+
+                    CuentaBancaria cuentaH = buscarCuenta(cuentaHistorial);
+                    if (cuentaH != null) {
+                        System.out.println("Historial de movimientos de la cuenta " + cuentaH.getNumeroCuenta() + ":");
+                        if (cuentaH.getHistorial().isEmpty()) {
+                            System.out.println("No hay transacciones registradas.");
+                        } else {
+                            for (Transaccion t : cuentaH.getHistorial()) {
+                                System.out.println(t);
+                            }
+                        }
+                    } else {
+                        System.out.println("Cuenta no encontrada.");
+                    }
+                    break;
 
                 case 7:
 
