@@ -17,11 +17,22 @@ public class CrearCuenta {
     String direccion;
     double monto;
     int numeroCuenta;
+    private Grafo grafo;
 
-    public CrearCuenta(String usuarioRegistrado, String contrasenaRegistrada, Scanner scan) {
+    public CrearCuenta(String usuarioRegistrado, String contrasenaRegistrada, Scanner scan, String nombre, String apellido, String documento, String correo, int edad, String telefono, String direccion, double monto, int numeroCuenta, Grafo grafo) {
         this.usuarioRegistrado = usuarioRegistrado;
         this.contrasenaRegistrada = contrasenaRegistrada;
         this.scan = scan;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.documento = documento;
+        this.correo = correo;
+        this.edad = edad;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.monto = monto;
+        this.numeroCuenta = numeroCuenta;
+        this.grafo = grafo;
     }
 
     public Scanner getScanner() {
@@ -87,9 +98,15 @@ public class CrearCuenta {
         }
         System.out.println("\nCuenta registrada exitosamente.");
         Random rand = new Random();
+
         Persona persona = new Persona(nombre, apellido, edad, documento, correo, telefono, direccion);
+
         String numCuentaStr = String.valueOf(100000 + new Random().nextInt(900000));
         CuentaBancaria cuentaNueva = new CuentaBancaria(numCuentaStr, persona, monto);
+
+        if (grafo != null) {
+            grafo.agregarPersona(persona);
+        }
         System.out.println("Su número de cuenta es: " + numCuentaStr);
 
 //        guardarDatosEnArchivo();

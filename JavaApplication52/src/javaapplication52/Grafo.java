@@ -2,6 +2,7 @@ package javaapplication52;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Grafo {
 
@@ -47,6 +48,25 @@ public class Grafo {
         } else {
             System.out.println("No se puede desconectar si alguna de las personas es nula.");
         }
+    }
+
+    public void mostrarGrafo() {
+        for (Persona p : personas) {
+            System.out.print(p.getNombre() + " está conectado con: ");
+            for (Persona con : p.getConexiones()) {
+                System.out.print(con.getNombre() + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static Persona buscarPersonaPorDocumento(Grafo grafo, String documento) {
+        for (Persona p : grafo.getPersonas()) {
+            if (p.getDocumento().equals(documento)) {
+                return p;
+            }
+        }
+        return null;
     }
 
 }

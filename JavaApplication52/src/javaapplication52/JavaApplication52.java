@@ -2,7 +2,7 @@ package javaapplication52;
 
 import java.util.Scanner;
 import static javaapplication52.CuentaBancaria.buscarCuenta;
-import javaapplication52.SistemaBancario;
+import static javaapplication52.Grafo.buscarPersonaPorDocumento;
 
 public class JavaApplication52 {
 
@@ -58,14 +58,15 @@ public class JavaApplication52 {
             while (sesionIniciada) {
                 System.out.println("¿Que desea hacer?");
                 System.out.println("1. Transferencias entre cuentas");
-                System.out.println("2. Depositos ");
-                System.out.println("3. Retiros");
-                System.out.println("4. Pagos de servicios(facturas) ");
-                System.out.println("5. Consultar saldo");
-                System.out.println("6. Consultar historial de movimiento");
-//                System.out.println("7. Solicitar prestamo ");
-//                System.out.println("8. Regitro de pago de prestamos");
-                System.out.println("9. Salir");
+                System.out.println("2. Depositos y Retiros ");
+                System.out.println("3. Pagos de servicios(facturas) ");
+                System.out.println("4. Consultar saldo");
+                System.out.println("5. Consultar historial de movimiento");
+                System.out.println("6. Solicitar prestamo ");
+                System.out.println("7. Regitro de pago de prestamos");
+                System.out.println("8. Conectar con otro usuario");
+                System.out.println("9. Ver mis conexiones");
+                System.out.println("10. Salir");
                 int ine = scan.nextInt();
                 scan.nextLine();
                 switch (ine) {
@@ -95,44 +96,56 @@ public class JavaApplication52 {
                         break;
 
                     case 2:
-
-                        System.out.print("Ingrese su número de cuenta: ");
-                        String numeroCuenta = scan.nextLine();
-
-                        CuentaBancaria cuentaDep = buscarCuenta(numeroCuenta);
-                        if (cuentaDep != null) {
-                            System.out.print("Ingrese el monto a depositar: ");
-                            double monto2 = scan.nextDouble();
-                            scan.nextLine();
-                            sistema.depositar(cuentaDep, monto2);
-                            System.out.println("Deposito exitoso.");
-                        } else {
-                            System.out.println("Cuenta no encontrada.");
+                        System.out.println("Que desea hacer ?");
+                        System.out.println("1. Depositos");
+                        System.out.println("2. Retiros");
+                        System.out.println("3. volver al menu principal");
+                        int desea = scan.nextInt();
+                        scan.nextLine();
+                        switch (desea) {
+                            case 1:
+                                System.out.print("Ingrese su numero de cuenta: ");
+                                String numeroCuenta = scan.nextLine();
+                                CuentaBancaria cuentaDep = buscarCuenta(numeroCuenta);
+                                if (cuentaDep != null) {
+                                    System.out.print("Ingrese el monto a depositar: ");
+                                    double monto2 = scan.nextDouble();
+                                    scan.nextLine();
+                                    sistema.depositar(cuentaDep, monto2);
+                                    System.out.println("Deposito exitoso.");
+                                } else {
+                                    System.out.println("Cuenta no encontrada.");
+                                }
+                                break;
+                            case 2:
+                                System.out.print("Número de cuenta: ");
+                                String cuentaRetiro = scan.nextLine();
+                                CuentaBancaria cuentaR = buscarCuenta(cuentaRetiro);
+                                if (cuentaR != null) {
+                                    System.out.print("Monto a retirar: ");
+                                    double montoRetiro = scan.nextDouble();
+                                    scan.nextLine();
+                                    if (sistema.retirar(cuentaR, montoRetiro)) {
+                                        System.out.println("Retiro exitoso.");
+                                    } else {
+                                        System.out.println("No se pudo realizar el retiro.");
+                                    }
+                                } else {
+                                    System.out.println("Cuenta no encontrada.");
+                                }
+                                break;
+                            default:
+                                System.out.println("Opcion invalida. Intente de nuevo.");
+                                continue;
                         }
                         break;
                     case 3:
-                        System.out.print("Número de cuenta: ");
-                        String cuentaRetiro = scan.nextLine();
-                        CuentaBancaria cuentaR = buscarCuenta(cuentaRetiro);
-                        if (cuentaR != null) {
-                            System.out.print("Monto a retirar: ");
-                            double montoRetiro = scan.nextDouble();
-                            scan.nextLine();
-                            if (sistema.retirar(cuentaR, montoRetiro)) {
-                                System.out.println("Retiro exitoso.");
-                            } else {
-                                System.out.println("No se pudo realizar el retiro.");
-                            }
-                        } else {
-                            System.out.println("Cuenta no encontrada.");
-                        }
-                        break;
-                    case 4:
                         System.out.println("Ingrese su número de cuenta para pagar facturas:");
                         String cuentaPago = scan.nextLine();
                         CuentaBancaria cuentaP = buscarCuenta(cuentaPago);
                         if (cuentaP != null) {
-
+                            
+                            loopFacturas:
                             while (true) {
                                 System.out.println("¿Cual factura desea implementar?");
                                 System.out.println("Facturas:");
@@ -183,15 +196,13 @@ public class JavaApplication52 {
 
                                     case 5:
                                         System.out.println("Saliendo del sistema. ¡Gracias!");
-                                        
-                                        return;
-
+                                        break loopFacturas;
                                     default:
                                         System.out.println("Opcion invalida. Intente de nuevo.");
                                         continue;
                                 }
 
-                                if (monto > 0) {
+                                if (fac > 0) {
                                     if (cuentaP.getSaldo() >= monto) {
                                         cuentaP.setSaldo(cuentaP.getSaldo() - monto);
                                         System.out.println("Pago realizado exitosamente. Nuevo saldo: $" + cuentaP.getSaldo());
@@ -204,7 +215,7 @@ public class JavaApplication52 {
                             System.out.println("Cuenta no encontrada.");
                         }
                         break;
-                    case 5:
+                    case 4:
                         System.out.print("Ingrese el número de cuenta para consultar el saldo: ");
                         String cuentaConsulta = scan.nextLine();
 
@@ -216,7 +227,7 @@ public class JavaApplication52 {
                         }
                         break;
 
-                    case 6:
+                    case 5:
                         System.out.print("Ingrese el número de cuenta para ver el historial: ");
                         String cuentaHistorial = scan.nextLine();
 
@@ -235,11 +246,42 @@ public class JavaApplication52 {
                         }
                         break;
 
+                    case 6:
+
                     case 7:
 
                     case 8:
 
+                        System.out.println("Documento de tu usuario:");
+                        String docA = scan.nextLine();
+                        System.out.println("Documento del usuario que deseas conectar:");
+                        String docB = scan.nextLine();
+
+                        Persona a = buscarPersonaPorDocumento(grafo, docA);
+                        Persona b = buscarPersonaPorDocumento(grafo, docB);
+
+                        if (a != null && b != null) {
+                            grafo.conectarPersonas(a, b);
+                            System.out.println("Personas conectadas exitosamente.");
+                        } else {
+                            System.out.println("Una o ambas personas no fueron encontradas.");
+                        }
+                        break;
                     case 9:
+                        System.out.print("Documento del usuario: ");
+                        String docConsulta = scan.nextLine();
+                        Persona personaConsulta = buscarPersonaPorDocumento(grafo, docConsulta);
+                        if (personaConsulta != null) {
+                            System.out.println("Conexiones:");
+                            for (Persona conectado : personaConsulta.getConexiones()) {
+                                System.out.println("- " + conectado);
+                            }
+                        } else {
+                            System.out.println("Persona no encontrada.");
+                        }
+                        break;
+
+                    case 10:
                         System.out.println("Gracias por todo, Saliendo del programa ...... ");
                         cuenta.cerrarScanner();
                         return;
