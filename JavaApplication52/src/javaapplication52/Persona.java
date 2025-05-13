@@ -40,8 +40,11 @@ public class Persona {
     public void agregarCuenta(CuentaBancaria cuenta) {
         if (cuenta != null && !cuentas.contains(cuenta)) {
             cuentas.add(cuenta);
+        } else {
+            System.out.println("La cuenta ya existe o es nula.");
         }
     }
+
 
     public void eliminarCuenta(CuentaBancaria cuenta) {
         cuentas.remove(cuenta);
@@ -50,6 +53,8 @@ public class Persona {
     public void agregarConexion(Persona persona) {
         if (persona != null && !conexiones.contains(persona)) {
             conexiones.add(persona);
+        } else {
+            System.out.println("Ya está conectada con esta persona o la persona es nula.");
         }
     }
 

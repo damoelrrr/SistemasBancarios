@@ -9,6 +9,7 @@ public class JavaApplication52 {
     public static void main(String[] args) {
         SistemaBancario sistema = new SistemaBancario();
         Scanner scan = new Scanner(System.in);
+         Grafo grafo = new Grafo();
 
         RegistroVerificado cuenta = new RegistroVerificado();
 
@@ -151,29 +152,29 @@ public class JavaApplication52 {
                             switch (fac) {
                                 case 1:
                                     System.out.println("Ingrese el consumo de agua en m³:");
-                                    double consumoAgua = scan.nextDouble();
-                                    double totalAgua = consumoAgua * 2.5;
-                                    System.out.println("Total a pagar por agua: $" + totalAgua);
+                                    double consumoAgua = Double.parseDouble(scan.nextLine());
+                                    monto = consumoAgua * 2.5;
+                                    System.out.println("Total a pagar por agua: $" + monto);
                                     break;
 
                                 case 2:
                                     System.out.println("Factura fija de recolección de basura.");
-                                    double totalBasura = 15.0;
-                                    System.out.println("Total a pagar por basura: $" + totalBasura);
+                                    monto = 15.0;
+                                    System.out.println("Total a pagar por basura: $" + monto);
                                     break;
 
                                 case 3:
                                     System.out.println("Contribucion voluntaria al sueldo del presidente.");
                                     System.out.println("Ingrese cuanto desea aportar:");
-                                    double aporte = scan.nextDouble();
-                                    System.out.println("Gracias por su aporte de $" + aporte);
+                                    monto = Double.parseDouble(scan.nextLine());
+                                    System.out.println("Gracias por su aporte de $" + monto);
                                     break;
 
                                 case 4:
                                     System.out.println("Ingrese el consumo de electricidad en kWh:");
-                                    double consumoLuz = scan.nextDouble();
-                                    double totalLuz = consumoLuz * 0.18;
-                                    System.out.println("Total a pagar por electricidad: $" + totalLuz);
+                                    double consumoLuz = Double.parseDouble(scan.nextLine());
+                                    monto = consumoLuz * 0.18;
+                                    System.out.println("Total a pagar por electricidad: $" + monto);
                                     break;
 
                                 case 5:
@@ -182,14 +183,21 @@ public class JavaApplication52 {
                                     return;
 
                                 default:
-                                    System.out.println("Opción invalida. Intente de nuevo.");
-                                    break;
+                                    System.out.println("Opcion invalida. Intente de nuevo.");
+                                    continue;
                             }
 
-                            System.out.println();
-//                        }
+                            if (monto > 0) {
+                                if (cuentaP.getSaldo() >= monto) {
+                                    cuentaP.setSaldo(cuentaP.getSaldo() - monto);
+                                    System.out.println("Pago realizado exitosamente. Nuevo saldo: $" + cuentaP.getSaldo());
+                                } else {
+                                    System.out.println("Saldo insuficiente para realizar el pago.");
+                                }
+                            }
                         }
-
+                    } else {
+                        System.out.println("Cuenta no encontrada.");
                     }
                     break;
                 case 5:
@@ -202,10 +210,10 @@ public class JavaApplication52 {
 
                 case 9:
                     System.out.println("Gracias por todo, Saliendo del programa ...... ");
-                    scan.close();
-                    break;
+                    cuenta.cerrarScanner(); 
+                    return;
             }
-            cuenta.cerrarScanner();
+
         }
     }
 }

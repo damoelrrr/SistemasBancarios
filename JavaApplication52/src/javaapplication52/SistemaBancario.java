@@ -1,5 +1,7 @@
 package javaapplication52;
 
+import java.util.List;
+
 public class SistemaBancario {
 
     public void depositar(CuentaBancaria cuentaDep, double monto2) {
@@ -17,15 +19,31 @@ public class SistemaBancario {
             cuenta.getHistorial().add(new Transaccion("Retiro", monto, cuenta, null));
             return true;
         } else {
-            System.out.println("Saldo insuficiente o monto inválido.");
+            System.out.println("Saldo insuficiente o monto invalido.");
             return false;
         }
     }
 
     public boolean transferir(CuentaBancaria origen, CuentaBancaria destino, double monto) {
-        if (destino != null && retirar(origen, monto)) {
+        if (origen == null || destino == null) {
+            System.out.println("Las cuentas origen o destino no son válidas.");
+            return false;
+        }
+
+        if (monto <= 0) {
+            System.out.println("El monto debe ser positivo.");
+            return false;
+        }
+
+        if (origen.getSaldo() < monto) {
+            System.out.println("Saldo insuficiente en la cuenta de origen.");
+            return false;
+        }
+        boolean retiroExitoso = retirar(origen, monto);
+        if (retiroExitoso) {
             depositar(destino, monto);
             origen.getHistorial().add(new Transaccion("Transferencia", monto, origen, destino));
+            destino.getHistorial().add(new Transaccion("Transferencia", monto, origen, destino));
             return true;
         } else {
             System.out.println("Transferencia fallida.");
@@ -33,5 +51,13 @@ public class SistemaBancario {
         }
     }
 
-}
+    public CuentaBancaria buscarCuenta(List<CuentaBancaria> cuentas, String numeroCuenta) {
+        for (CuentaBancaria cuenta : cuentas) {
+            if (cuenta.getNumeroCuenta().equals(numeroCuenta)) {
+                return cuenta;
+            }
+        }
+        return null;
 
+    }
+}

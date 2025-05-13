@@ -13,7 +13,7 @@ public class CrearCuenta {
     String documento;
     String correo;
     int edad;
-    private String telefono;
+    String telefono;
     String direccion;
     double monto;
     int numeroCuenta;

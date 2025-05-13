@@ -7,7 +7,6 @@ public class RegistroVerificado extends CrearCuenta {
     private CuentaBancaria cuentaBancaria;
     private String correoElectronico;
     private String nuevaContraseña;
-    private String telefono;
 
     @Override
     public void registrarCuenta() {
@@ -26,17 +25,19 @@ public class RegistroVerificado extends CrearCuenta {
             return;
         }
 
-        telefono = obtenerTelefono();
-
     }
 
-    private String obtenerTelefono() {
-
+    public String leerTelefonoValido() {
         String telefono;
-
-        System.out.println("El numero de teléfono debe tener exactamente 10 dígitos y ser numerico.");
-
-        return null;
+        do {
+            System.out.print("Telefono (10 dígitos): ");
+            telefono = scan.nextLine();
+            if (telefono.matches("\\d{10}")) {
+                return telefono;
+            } else {
+                System.out.println("Número inválido. Debe tener exactamente 10 dígitos numéricos.");
+            }
+        } while (true);
     }
 
     public void cambiarContraseña() {
@@ -50,7 +51,7 @@ public class RegistroVerificado extends CrearCuenta {
             contrasenaRegistrada = nuevaContraseña;
             System.out.println("Contraseña actualizada correctamente.");
         } else {
-            System.out.println("La contraseña no puede ser vacía.");
+            System.out.println("La contraseña no puede ser vacia.");
         }
     }
 
@@ -78,10 +79,9 @@ public class RegistroVerificado extends CrearCuenta {
                 break;
             case 3:
                 correo = leerCorreoValido();
-
                 break;
             case 4:
-                telefono = obtenerTelefono();
+                telefono = leerTelefonoValido();
                 break;
             case 5:
                 System.out.print("Ingresa la nueva direccion: ");
@@ -110,7 +110,7 @@ public class RegistroVerificado extends CrearCuenta {
                     System.out.println("Su cuenta ha sido eliminada exitosamente.");
                 } else if (cuenta.equalsIgnoreCase("no")) {
                     System.out.println("Operacion cancelada.");
-                    
+
                 } else {
                     System.out.println("Opción no valida.");
                 }
