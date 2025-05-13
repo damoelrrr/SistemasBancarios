@@ -1,5 +1,7 @@
 package javaapplication52;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -144,21 +146,21 @@ public class CrearCuenta {
         } while (true);
     }
 
-//    private void guardarDatosEnArchivo() {
-//        try (FileWriter escritor = new FileWriter("cuentas.txt", true)) {
-//            escritor.write("Usuario: " + usuarioRegistrado + "\n");
-//            escritor.write("Contraseña: " + contrasenaRegistrada + "\n");
-//            escritor.write("Nombre: " + nombre + " " + apellido + "\n");
-//            escritor.write("Documento: " + documento + "\n");
-//            escritor.write("Correo: " + correo + "\n");
-//            escritor.write("Edad: " + edad + "\n");
-//            escritor.write("Teléfono: " + telefono + "\n");
-//            escritor.write("Dirección: " + direccion + "\n");
-//            escritor.write("-----\n");
-//        } catch (IOException e) {
-//            System.out.println("Error al guardar los datos: " + e.getMessage());
-//        }
-//    }
+    private void guardarDatosEnArchivo() {
+        try (FileWriter escritor = new FileWriter("cuentas.txt", true)) {
+            escritor.write("Usuario: " + usuarioRegistrado + "\n");
+            escritor.write("Contraseña: " + contrasenaRegistrada + "\n");
+            escritor.write("Nombre: " + nombre + " " + apellido + "\n");
+            escritor.write("Documento: " + documento + "\n");
+            escritor.write("Correo: " + correo + "\n");
+            escritor.write("Edad: " + edad + "\n");
+            escritor.write("Teléfono: " + telefono + "\n");
+            escritor.write("Dirección: " + direccion + "\n");
+            escritor.write("-----\n");
+        } catch (IOException e) {
+            System.out.println("Error al guardar los datos: " + e.getMessage());
+        }
+    }
     public void cerrarScanner() {
         System.out.println("Finalizando programa. Gracias por usar nuestros servicios.");
         scan.close();

@@ -59,8 +59,8 @@ public class JavaApplication52 {
                 System.out.println("6. Solicitar prestamo ");
                 System.out.println("7. Regitro de pago de prestamos");
                 System.out.println("8. Ver mis conexiones");
-                System.out.println("10. Actualizar datos personales");
-                System.out.println("9. Salir");
+                System.out.println("9. Actualizar datos personales");
+                System.out.println("10. Salir");
                 
                 int ine = scan.nextInt();
                 scan.nextLine();
@@ -74,11 +74,12 @@ public class JavaApplication52 {
 
                         System.out.println("Ingrese el monto a transferir:");
                         double monto = scan.nextDouble();
+                        scan.nextLine();
                         System.out.println("Ingrese el documento de la persona de origen:");
-                        String docA = scan.nextLine();  // Captura el documento de la persona de origen
+                        String docA = scan.nextLine();  
 
                         System.out.println("Ingrese el documento de la persona de destino:");
-                        String docB = scan.nextLine();  // Captura el documento de la persona de destino
+                        String docB = scan.nextLine(); 
 
                         Persona personaOrigen = buscarPersonaPorDocumento(grafo, docA);
                         Persona personaDestino = buscarPersonaPorDocumento(grafo, docB);
