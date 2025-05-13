@@ -45,7 +45,6 @@ public class Persona {
         }
     }
 
-
     public void eliminarCuenta(CuentaBancaria cuenta) {
         cuentas.remove(cuenta);
     }
@@ -75,8 +74,12 @@ public class Persona {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Persona)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Persona)) {
+            return false;
+        }
         Persona persona = (Persona) o;
         return documento.equals(persona.documento);
     }
@@ -84,5 +87,15 @@ public class Persona {
     @Override
     public int hashCode() {
         return Objects.hash(documento);
+    }
+
+    CuentaBancaria getCuentaBancaria(String numeroCuenta) {
+        for (CuentaBancaria cuenta : cuentas) {
+            if (cuenta.getNumeroCuenta().equals(numeroCuenta)) {
+                return cuenta;
+            }
+        }
+        return null;
+        
     }
 }

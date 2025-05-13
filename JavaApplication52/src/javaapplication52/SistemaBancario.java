@@ -1,6 +1,7 @@
 package javaapplication52;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class SistemaBancario {
 
@@ -30,26 +31,8 @@ public class SistemaBancario {
             return false;
         }
 
-        if (monto <= 0) {
-            System.out.println("El monto debe ser positivo.");
-            return false;
-        }
-
-        if (origen.getSaldo() < monto) {
-            System.out.println("Saldo insuficiente en la cuenta de origen.");
-            return false;
-        }
-
-        boolean retiroExitoso = retirar(origen, monto);
-        if (retiroExitoso) {
-            depositar(destino, monto);
-            Transaccion transaccion = new Transaccion("Transferencia", monto, origen, destino);
-            origen.getHistorial().add(transaccion);
-            destino.getHistorial().add(transaccion);
-            return true;
-        } else {
-            return false;
-        }
+       
+        return origen.transferirA(destino, monto);
     }
 
     public CuentaBancaria buscarCuenta(List<CuentaBancaria> cuentas, String numeroCuenta) {
@@ -60,5 +43,18 @@ public class SistemaBancario {
         }
         return null;
     }
-}
 
+    public static void modificarDatosPersonales(RegistroVerificado cuenta, Scanner scan) {
+        System.out.println("¿Desea actualizar datos personales? (si/no):");
+        String modi = scan.nextLine();
+
+        if (modi.equalsIgnoreCase("si")) {
+            cuenta.modificarRegistro();
+        } else if (modi.equalsIgnoreCase("no")) {
+            System.out.println("No se realizarán cambios en su registro.");
+        } else {
+            System.out.println("Opción no válida.");
+        }
+    }
+
+}

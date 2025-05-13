@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 import static javaapplication52.CuentaBancaria.buscarCuenta;
 import static javaapplication52.Grafo.buscarPersonaPorDocumento;
+import static javaapplication52.SistemaBancario.modificarDatosPersonales;
+import javaapplication52.CuentaBancaria;
 
 public class JavaApplication52 {
 
@@ -45,16 +47,7 @@ public class JavaApplication52 {
                 return;
             }
 
-            System.out.println("¿Desea actualizar datos personales? (si/no):");
-            String modi = scan.nextLine();
-
-            if (modi.equalsIgnoreCase("si")) {
-                cuenta.modificarRegistro();
-            } else if (modi.equalsIgnoreCase("no")) {
-                System.out.println("No se realizarán cambios en su registro.");
-            } else {
-                System.out.println("Opción no válida.");
-            }
+            modificarDatosPersonales(cuenta, scan);
 
             while (sesionIniciada) {
                 System.out.println("¿Que desea hacer?");
@@ -65,9 +58,9 @@ public class JavaApplication52 {
                 System.out.println("5. Consultar historial de movimiento");
                 System.out.println("6. Solicitar prestamo ");
                 System.out.println("7. Regitro de pago de prestamos");
-                System.out.println("8. Conectar con otro usuario");
-                System.out.println("9. Ver mis conexiones");
-                System.out.println("10. Salir");
+                System.out.println("8. Ver mis conexiones");
+                System.out.println("9. Salir");
+                System.out.println("10. Actualizar datos personales");
                 int ine = scan.nextInt();
                 scan.nextLine();
                 switch (ine) {
@@ -80,22 +73,38 @@ public class JavaApplication52 {
 
                         System.out.println("Ingrese el monto a transferir:");
                         double monto = scan.nextDouble();
+                        System.out.println("Ingrese el documento de la persona de origen:");
+                        String docA = scan.nextLine();  // Captura el documento de la persona de origen
 
-                        CuentaBancaria origen = CuentaBancaria.buscarCuenta(origenCuenta);
-                        CuentaBancaria destino = CuentaBancaria.buscarCuenta(destinoCuenta);
+                        System.out.println("Ingrese el documento de la persona de destino:");
+                        String docB = scan.nextLine();  // Captura el documento de la persona de destino
 
-                        if (origen != null && destino != null) {
-                            boolean exito = sistema.transferir(origen, destino, monto);
-                            if (exito) {
-                                System.out.println("Transferencia realizada con éxito.");
+                        Persona personaOrigen = buscarPersonaPorDocumento(grafo, docA);
+                        Persona personaDestino = buscarPersonaPorDocumento(grafo, docB);
+
+                        if (personaOrigen != null && personaDestino != null) {
+                            
+                             CuentaBancaria cuentaOrigen = personaOrigen.getCuentaBancaria(origenCuenta);
+                             CuentaBancaria cuentaDestino = personaDestino.getCuentaBancaria(destinoCuenta);
+
+                            if (cuentaOrigen != null && cuentaDestino != null) {
+                                
+                                boolean exito = sistema.transferir(cuentaOrigen, cuentaDestino, monto);
+                                if (exito) {
+                                    System.out.println("Transferencia realizada con éxito.");
+                                    
+                                    grafo.conectarPersonas(personaOrigen, personaDestino);
+                                    System.out.println("Usuarios conectados en el grafo.");
+                                } else {
+                                    System.out.println("No se pudo realizar la transferencia.");
+                                }
                             } else {
-                                System.out.println("No se pudo realizar la transferencia.");
+                                System.out.println("Una o ambas personas no tienen cuenta bancaria asociada.");
                             }
                         } else {
-                            System.out.println("Una o ambas cuentas no existen.");
+                            System.out.println("Una o ambas personas no fueron encontradas en el sistema.");
                         }
                         break;
-
                     case 2:
                         System.out.println("Que desea hacer ?");
                         System.out.println("1. Depositos");
@@ -323,7 +332,7 @@ public class JavaApplication52 {
                             break;
                         }
 
-                         List<Prestamo> prestamos = cuentaConPrestamo.getPrestamos();
+                        List<Prestamo> prestamos = cuentaConPrestamo.getPrestamos();
 
                         if (prestamos.isEmpty()) {
                             System.out.println("No hay préstamos registrados para esta cuenta.");
@@ -364,23 +373,6 @@ public class JavaApplication52 {
                         break;
 
                     case 8:
-
-                        System.out.println("Documento de tu usuario:");
-                        String docA = scan.nextLine();
-                        System.out.println("Documento del usuario que deseas conectar:");
-                        String docB = scan.nextLine();
-
-                        Persona a = buscarPersonaPorDocumento(grafo, docA);
-                        Persona b = buscarPersonaPorDocumento(grafo, docB);
-
-                        if (a != null && b != null) {
-                            grafo.conectarPersonas(a, b);
-                            System.out.println("Personas conectadas exitosamente.");
-                        } else {
-                            System.out.println("Una o ambas personas no fueron encontradas.");
-                        }
-                        break;
-                    case 9:
                         System.out.print("Documento del usuario: ");
                         String docConsulta = scan.nextLine();
                         Persona personaConsulta = buscarPersonaPorDocumento(grafo, docConsulta);
@@ -394,10 +386,13 @@ public class JavaApplication52 {
                         }
                         break;
 
-                    case 10:
+                    case 9:
                         System.out.println("Gracias por todo, Saliendo del programa ...... ");
                         cuenta.cerrarScanner();
                         return;
+                    case 10:
+                        modificarDatosPersonales(cuenta, scan);
+
                 }
                 if (sesionIniciada) {
                     System.out.println("\n¿Desea realizar otra operación?(colocar numeros)");

@@ -61,12 +61,17 @@ public class Grafo {
     }
 
     public static Persona buscarPersonaPorDocumento(Grafo grafo, String documento) {
+        Persona persona = null;
         for (Persona p : grafo.getPersonas()) {
             if (p.getDocumento().equals(documento)) {
-                return p;
+                persona = p;
+                break;
             }
         }
-        return null;
+        if (persona == null) {
+            System.out.println("Persona con documento " + documento + " no encontrada.");
+        }
+        return persona;
     }
 
 }

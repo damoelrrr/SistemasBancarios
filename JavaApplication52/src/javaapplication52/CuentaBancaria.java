@@ -12,15 +12,14 @@ public class CuentaBancaria {
     private double saldo;
     private Persona titular;
 
-  public CuentaBancaria(String numeroCuenta, Persona titular, double saldoInicial) {
-    this.numeroCuenta = numeroCuenta;
-    this.titular = titular;
-    this.saldo = saldoInicial;
-    this.historial = new ArrayList<>();
-    this.prestamos = new ArrayList<>(); 
-    cuentasRegistradas.add(this);
-}
-
+    public CuentaBancaria(String numeroCuenta, Persona titular, double saldoInicial) {
+        this.numeroCuenta = numeroCuenta;
+        this.titular = titular;
+        this.saldo = saldoInicial;
+        this.historial = new ArrayList<>();
+        this.prestamos = new ArrayList<>();
+        cuentasRegistradas.add(this);
+    }
 
     public List<Transaccion> getHistorial() {
         return historial;
@@ -95,20 +94,41 @@ public class CuentaBancaria {
     }
 
     public boolean retirar(double monto) {
-        if (monto > 0 && saldo >= monto) {
-            saldo -= monto;
-            historial.add(new Transaccion("Retiro", monto, this, null));
-            return true;
+        if (monto <= 0) {
+            System.out.println("El monto a retirar debe ser positivo.");
+            return false;
         }
-        return false;
+        if (saldo < monto) {
+            System.out.println("Saldo insuficiente. Saldo actual: " + saldo);
+            return false;
+        }
+        saldo -= monto;
+        historial.add(new Transaccion("Retiro", monto, this, null));
+        return true;
     }
 
     public boolean transferirA(CuentaBancaria destino, double monto) {
-        if (retirar(monto)) {
+        if (monto <= 0) {
+            System.out.println("El monto debe ser positivo.");
+            return false;
+        }
+
+        if (this.getSaldo() < monto) {
+            System.out.println("Saldo insuficiente en la cuenta de origen.");
+            return false;
+        }
+
+        boolean retiroExitoso = retirar(monto);
+        if (retiroExitoso) {
             destino.depositar(monto);
-            historial.add(new Transaccion("Transferencia", monto, this, destino));
+
+            Transaccion transaccion = new Transaccion("Transferencia", monto, this, destino);
+            this.getHistorial().add(transaccion);
+            destino.getHistorial().add(transaccion);
+
             return true;
         }
+
         return false;
     }
 
