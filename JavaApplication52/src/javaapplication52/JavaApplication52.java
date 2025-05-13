@@ -1,5 +1,6 @@
 package javaapplication52;
 
+import java.util.List;
 import java.util.Scanner;
 import static javaapplication52.CuentaBancaria.buscarCuenta;
 import static javaapplication52.Grafo.buscarPersonaPorDocumento;
@@ -144,7 +145,7 @@ public class JavaApplication52 {
                         String cuentaPago = scan.nextLine();
                         CuentaBancaria cuentaP = buscarCuenta(cuentaPago);
                         if (cuentaP != null) {
-                            
+
                             loopFacturas:
                             while (true) {
                                 System.out.println("¿Cual factura desea implementar?");
@@ -247,8 +248,120 @@ public class JavaApplication52 {
                         break;
 
                     case 6:
+                        System.out.println("Ingrese su número de cuenta:");
+                        String numCuentaPrestamo = scan.nextLine();
+                        CuentaBancaria cuentaPrestamo = buscarCuenta(numCuentaPrestamo);
+
+                        if (cuentaPrestamo == null) {
+                            System.out.println("Cuenta no encontrada.");
+                            break;
+                        }
+
+                        System.out.println("Ingrese sus ingresos mensuales:");
+                        double ingresos = scan.nextDouble();
+                        scan.nextLine();
+
+                        System.out.println("¿En qué trabaja?");
+                        String trabajo = scan.nextLine();
+
+                        System.out.println("¿Cuántos años lleva trabajando en esa empresa?");
+                        int anios = scan.nextInt();
+
+                        System.out.println("¿Tiene propiedades? (si/no)");
+                        String propiedades = scan.next();
+                        scan.nextLine();
+
+                        double valorPropiedades = 0;
+                        if (propiedades.equalsIgnoreCase("si")) {
+                            System.out.println("¿De qué valor son sus propiedades?");
+                            valorPropiedades = scan.nextDouble();
+                            scan.nextLine();
+                        }
+
+                        System.out.println("¿Por cuántos meses desea pagar el préstamo?");
+                        int mesesDeseados = scan.nextInt();
+
+                        System.out.println("¿De qué valor quiere el préstamo?");
+                        double montoPrestamo = scan.nextDouble();
+
+                        double cuotaMensualDeseada = montoPrestamo / mesesDeseados;
+                        double cuotaMaximaPermitida = ingresos * 0.3;
+
+                        if (cuotaMensualDeseada <= cuotaMaximaPermitida) {
+                            Prestamo prestamoAprobado = new Prestamo(montoPrestamo, mesesDeseados, cuotaMensualDeseada);
+                            cuentaPrestamo.agregarPrestamo(prestamoAprobado);
+                            cuentaPrestamo.setSaldo(cuentaPrestamo.getSaldo() + montoPrestamo);
+                            System.out.println("Préstamo aprobado.");
+                        } else {
+                            int mesesRecalculados = (int) Math.ceil(montoPrestamo / cuotaMaximaPermitida);
+                            double nuevaCuota = montoPrestamo / mesesRecalculados;
+
+                            System.out.println("El préstamo no puede aprobarse en " + mesesDeseados + " meses porque la cuota mensual sería de $" + cuotaMensualDeseada + ", lo cual excede el 30% de sus ingresos.");
+                            System.out.println("La opción viable sería pagarlo en " + mesesRecalculados + " meses con una cuota mensual de $" + String.format("%.2f", nuevaCuota));
+                            System.out.println("¿Desea aceptar esta nueva opción? (si/no)");
+                            String acepta = scan.next();
+                            scan.nextLine();
+
+                            if (acepta.equalsIgnoreCase("si")) {
+                                Prestamo prestamoAprobado = new Prestamo(montoPrestamo, mesesRecalculados, nuevaCuota);
+                                cuentaPrestamo.agregarPrestamo(prestamoAprobado);
+                                cuentaPrestamo.setSaldo(cuentaPrestamo.getSaldo() + montoPrestamo);
+                                System.out.println("Préstamo aprobado.");
+                            } else {
+                                System.out.println("Préstamo cancelado.");
+                            }
+                        }
+                        break;
 
                     case 7:
+                        System.out.println("Ingrese su número de cuenta:");
+                        String cuentaPagoPrestamo = scan.nextLine();
+                        CuentaBancaria cuentaConPrestamo = buscarCuenta(cuentaPagoPrestamo);
+
+                        if (cuentaConPrestamo == null) {
+                            System.out.println("Cuenta no encontrada.");
+                            break;
+                        }
+
+                         List<Prestamo> prestamos = cuentaConPrestamo.getPrestamos();
+
+                        if (prestamos.isEmpty()) {
+                            System.out.println("No hay préstamos registrados para esta cuenta.");
+                            break;
+                        }
+
+                        System.out.println("Préstamos disponibles:");
+                        for (int i = 0; i < prestamos.size(); i++) {
+                            Prestamo p = prestamos.get(i);
+                            System.out.println((i + 1) + ". " + p);
+                        }
+
+                        System.out.println("Seleccione el número del préstamo que desea pagar:");
+                        int indice = scan.nextInt();
+                        scan.nextLine();
+
+                        if (indice < 1 || indice > prestamos.size()) {
+                            System.out.println("Opción inválida.");
+                            break;
+                        }
+
+                        Prestamo prestamoSeleccionado = prestamos.get(indice - 1);
+
+                        if (prestamoSeleccionado.isPagado()) {
+                            System.out.println("Este préstamo ya ha sido pagado.");
+                            break;
+                        }
+
+                        double cuota = prestamoSeleccionado.getCuotaMensual();
+                        if (cuentaConPrestamo.getSaldo() >= cuota) {
+                            cuentaConPrestamo.setSaldo(cuentaConPrestamo.getSaldo() - cuota);
+                            prestamoSeleccionado.marcarComoPagado();
+                            cuentaConPrestamo.getHistorial().add(new Transaccion("Pago de préstamo", cuota, cuentaConPrestamo, null));
+                            System.out.println("Pago de préstamo registrado con éxito.");
+                        } else {
+                            System.out.println("Saldo insuficiente para realizar el pago.");
+                        }
+                        break;
 
                     case 8:
 

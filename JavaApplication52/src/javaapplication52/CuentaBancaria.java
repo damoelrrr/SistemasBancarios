@@ -7,17 +7,20 @@ public class CuentaBancaria {
 
     private static List<CuentaBancaria> cuentasRegistradas = new ArrayList<>();
     private List<Transaccion> historial = new ArrayList<>();
+    private List<Prestamo> prestamos = new ArrayList<>();
     private String numeroCuenta;
     private double saldo;
     private Persona titular;
 
-    public CuentaBancaria(String numeroCuenta, Persona titular, double saldoInicial) {
-        this.numeroCuenta = numeroCuenta;
-        this.titular = titular;
-        this.saldo = saldoInicial;
-        this.historial = new ArrayList<>();
-        cuentasRegistradas.add(this);
-    }
+  public CuentaBancaria(String numeroCuenta, Persona titular, double saldoInicial) {
+    this.numeroCuenta = numeroCuenta;
+    this.titular = titular;
+    this.saldo = saldoInicial;
+    this.historial = new ArrayList<>();
+    this.prestamos = new ArrayList<>(); 
+    cuentasRegistradas.add(this);
+}
+
 
     public List<Transaccion> getHistorial() {
         return historial;
@@ -70,6 +73,14 @@ public class CuentaBancaria {
 
     public void setTitular(Persona titular) {
         this.titular = titular;
+    }
+
+    public void agregarPrestamo(Prestamo prestamo) {
+        prestamos.add(prestamo);
+    }
+
+    public List<Prestamo> getPrestamos() {
+        return prestamos;
     }
 
     public void agregarTransaccion(Transaccion transaccion) {
