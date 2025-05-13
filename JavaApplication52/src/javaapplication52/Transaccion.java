@@ -1,7 +1,5 @@
 package javaapplication52;
 
-
-
 import java.util.Date;
 
 public class Transaccion {
