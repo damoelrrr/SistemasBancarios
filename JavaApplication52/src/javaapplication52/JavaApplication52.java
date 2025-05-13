@@ -202,6 +202,16 @@ public class JavaApplication52 {
                     }
                     break;
                 case 5:
+                    System.out.print("Ingrese el número de cuenta para consultar el saldo: ");
+                    String cuentaConsulta = scan.nextLine();
+
+                    CuentaBancaria cuentaSaldo = buscarCuenta(cuentaConsulta);
+                    if (cuentaSaldo != null) {
+                        System.out.println("Saldo actual de la cuenta " + cuentaSaldo.getNumeroCuenta() + ": $" + cuentaSaldo.getSaldo());
+                    } else {
+                        System.out.println("Cuenta no encontrada.");
+                    }
+                    break;
 
                 case 6:
 
