@@ -323,7 +323,7 @@ public class JavaApplication52 {
                             break;
                         }
 
-                         List<Prestamo> prestamos = cuentaConPrestamo.getPrestamos();
+                        List<Prestamo> prestamos = cuentaConPrestamo.getPrestamos();
 
                         if (prestamos.isEmpty()) {
                             System.out.println("No hay préstamos registrados para esta cuenta.");
