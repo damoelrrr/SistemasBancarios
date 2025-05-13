@@ -1,8 +1,10 @@
 package javaapplication52;
 
+
+
 import java.util.Date;
 
-class Transaccion {
+public class Transaccion {
 
     private String tipo;
     private double monto;

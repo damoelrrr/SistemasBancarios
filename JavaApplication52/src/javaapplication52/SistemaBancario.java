@@ -39,14 +39,15 @@ public class SistemaBancario {
             System.out.println("Saldo insuficiente en la cuenta de origen.");
             return false;
         }
+
         boolean retiroExitoso = retirar(origen, monto);
         if (retiroExitoso) {
             depositar(destino, monto);
-            origen.getHistorial().add(new Transaccion("Transferencia", monto, origen, destino));
-            destino.getHistorial().add(new Transaccion("Transferencia", monto, origen, destino));
+            Transaccion transaccion = new Transaccion("Transferencia", monto, origen, destino);
+            origen.getHistorial().add(transaccion);
+            destino.getHistorial().add(transaccion);
             return true;
         } else {
-            System.out.println("Transferencia fallida.");
             return false;
         }
     }
@@ -58,6 +59,6 @@ public class SistemaBancario {
             }
         }
         return null;
-
     }
 }
+

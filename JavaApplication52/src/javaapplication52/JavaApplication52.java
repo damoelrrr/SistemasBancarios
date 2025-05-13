@@ -9,7 +9,7 @@ public class JavaApplication52 {
     public static void main(String[] args) {
         SistemaBancario sistema = new SistemaBancario();
         Scanner scan = new Scanner(System.in);
-         Grafo grafo = new Grafo();
+        Grafo grafo = new Grafo();
 
         RegistroVerificado cuenta = new RegistroVerificado();
 
@@ -67,7 +67,7 @@ public class JavaApplication52 {
             scan.nextLine();
             switch (ine) {
                 case 1:
-                    System.out.println("Escriba el numero de cuenta a la que realizara el deposito:");
+                    System.out.println("Escriba el numero de cuenta de origen:");
                     String origenCuenta = scan.nextLine();
 
                     System.out.println("Ingrese el numero de cuenta destino:");
@@ -76,13 +76,13 @@ public class JavaApplication52 {
                     System.out.println("Ingrese el monto a transferir:");
                     double monto = scan.nextDouble();
 
-                    CuentaBancaria origen = buscarCuenta(origenCuenta);
-                    CuentaBancaria destino = buscarCuenta(destinoCuenta);
+                    CuentaBancaria origen = CuentaBancaria.buscarCuenta(origenCuenta);
+                    CuentaBancaria destino = CuentaBancaria.buscarCuenta(destinoCuenta);
 
                     if (origen != null && destino != null) {
                         boolean exito = sistema.transferir(origen, destino, monto);
                         if (exito) {
-                            System.out.println("Transferencia realizada con exito.");
+                            System.out.println("Transferencia realizada con éxito.");
                         } else {
                             System.out.println("No se pudo realizar la transferencia.");
                         }
@@ -90,6 +90,7 @@ public class JavaApplication52 {
                         System.out.println("Una o ambas cuentas no existen.");
                     }
                     break;
+
                 case 2:
 
                     System.out.print("Ingrese su número de cuenta: ");
@@ -210,7 +211,7 @@ public class JavaApplication52 {
 
                 case 9:
                     System.out.println("Gracias por todo, Saliendo del programa ...... ");
-                    cuenta.cerrarScanner(); 
+                    cuenta.cerrarScanner();
                     return;
             }
 

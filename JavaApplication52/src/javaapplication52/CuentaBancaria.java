@@ -12,12 +12,12 @@ public class CuentaBancaria {
     private Persona titular;
 
     public CuentaBancaria(String numeroCuenta, Persona titular, double saldoInicial) {
-    this.numeroCuenta = numeroCuenta;
-    this.titular = titular;
-    this.saldo = saldoInicial;
-    this.historial = new ArrayList<>();
-    cuentasRegistradas.add(this);
-}
+        this.numeroCuenta = numeroCuenta;
+        this.titular = titular;
+        this.saldo = saldoInicial;
+        this.historial = new ArrayList<>();
+        cuentasRegistradas.add(this);
+    }
 
     public List<Transaccion> getHistorial() {
         return historial;
@@ -71,8 +71,35 @@ public class CuentaBancaria {
     public void setTitular(Persona titular) {
         this.titular = titular;
     }
-    
-    
+
+    public void agregarTransaccion(Transaccion transaccion) {
+        historial.add(transaccion);
+    }
+
+    public void depositar(double monto) {
+        if (monto > 0) {
+            saldo += monto;
+            historial.add(new Transaccion("Depósito", monto, null, this));
+        }
+    }
+
+    public boolean retirar(double monto) {
+        if (monto > 0 && saldo >= monto) {
+            saldo -= monto;
+            historial.add(new Transaccion("Retiro", monto, this, null));
+            return true;
+        }
+        return false;
+    }
+
+    public boolean transferirA(CuentaBancaria destino, double monto) {
+        if (retirar(monto)) {
+            destino.depositar(monto);
+            historial.add(new Transaccion("Transferencia", monto, this, destino));
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
