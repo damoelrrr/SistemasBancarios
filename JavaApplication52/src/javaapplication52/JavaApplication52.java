@@ -20,27 +20,32 @@ public class JavaApplication52 {
 
         while (true) {
             sesionIniciada = false;
+            String Respuesta;
 
-            System.out.println("¿Ya tienes una cuenta registrada? (si/no): ");
-            String respuesta = cuenta.getScanner().nextLine();
-            if (respuesta.equalsIgnoreCase("si")) {
-                sesionIniciada = cuenta.iniciarSesion();
-            } else if (respuesta.equalsIgnoreCase("no")) {
-                System.out.println("Desea crear una cuenta(si/no)");
-                String respuest2a = cuenta.getScanner().nextLine();
-                if (respuest2a.equalsIgnoreCase("si")) {
-                    cuenta.registrarCuenta();
+            while (true) {
+                System.out.println("¿Ya tienes una cuenta registrada? (si/no): ");
+                String respuesta = cuenta.getScanner().nextLine().trim().toLowerCase();
+
+                if (respuesta.equalsIgnoreCase("si")) {
                     sesionIniciada = cuenta.iniciarSesion();
-                } else if (respuest2a.equalsIgnoreCase("no")) {
-                    cuenta.cerrarPrincipio();
+                    break;
+                } else if (respuesta.equalsIgnoreCase("no")) {
+                    while (true) {
+                        System.out.println("Desea crear una cuenta(si/no)");
+                        String respuest2a = cuenta.getScanner().nextLine();
+                        if (respuest2a.equalsIgnoreCase("si")) {
+                            cuenta.registrarCuenta();
+                            sesionIniciada = cuenta.iniciarSesion();
+                            break;
+                        } else if (respuest2a.equalsIgnoreCase("no")) {
+                            cuenta.cerrarPrincipio();
+                        } else {
+                            System.out.println("Respuesta no válida. Vuelva a intentarlo.");
+                            
+                        }
+                    }
                 }
-
-            } else {
-                System.out.println("Respuesta no válida. El programa terminará.");
-                cuenta.cerrarPrincipio();
-                return;
             }
-
             if (!sesionIniciada) {
                 System.out.println("No se pudo iniciar sesión. Terminando programa.");
                 cuenta.cerrarScanner();
@@ -61,7 +66,7 @@ public class JavaApplication52 {
                 System.out.println("8. Ver mis conexiones");
                 System.out.println("9. Actualizar datos personales");
                 System.out.println("10. Salir");
-                
+
                 int ine = scan.nextInt();
                 scan.nextLine();
                 switch (ine) {
@@ -76,25 +81,25 @@ public class JavaApplication52 {
                         double monto = scan.nextDouble();
                         scan.nextLine();
                         System.out.println("Ingrese el documento de la persona de origen:");
-                        String docA = scan.nextLine();  
+                        String docA = scan.nextLine();
 
                         System.out.println("Ingrese el documento de la persona de destino:");
-                        String docB = scan.nextLine(); 
+                        String docB = scan.nextLine();
 
                         Persona personaOrigen = buscarPersonaPorDocumento(grafo, docA);
                         Persona personaDestino = buscarPersonaPorDocumento(grafo, docB);
 
                         if (personaOrigen != null && personaDestino != null) {
-                            
-                             CuentaBancaria cuentaOrigen = personaOrigen.getCuentaBancaria(origenCuenta);
-                             CuentaBancaria cuentaDestino = personaDestino.getCuentaBancaria(destinoCuenta);
+
+                            CuentaBancaria cuentaOrigen = personaOrigen.getCuentaBancaria(origenCuenta);
+                            CuentaBancaria cuentaDestino = personaDestino.getCuentaBancaria(destinoCuenta);
 
                             if (cuentaOrigen != null && cuentaDestino != null) {
-                                
+
                                 boolean exito = sistema.transferir(cuentaOrigen, cuentaDestino, monto);
                                 if (exito) {
                                     System.out.println("Transferencia realizada con éxito.");
-                                    
+
                                     grafo.conectarPersonas(personaOrigen, personaDestino);
                                     System.out.println("Usuarios conectados en el grafo.");
                                 } else {

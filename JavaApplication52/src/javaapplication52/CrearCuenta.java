@@ -66,10 +66,10 @@ public class CrearCuenta {
 
         System.out.print("Telefono: ");
         telefono = scan.nextLine();
-        if (!telefono.matches("\\d{10}")) {
+        while (!telefono.matches("\\d{10}")) {
             System.out.println("El numero de telefono debe tener exactamente 10 dígitos y ser numerico.");
-            System.exit(0);
-
+            System.out.println("Debes ingresar otra vez el numero");
+            telefono = scan.nextLine();
             return;
         }
 
@@ -87,9 +87,9 @@ public class CrearCuenta {
         try {
             monto = scan.nextDouble();
             scan.nextLine();
-            if (monto < 2000) {
+            while (monto < 2000) {
                 System.out.println("Monto insuficiente");
-                System.exit(0);
+                monto = scan.nextInt();
 
                 return;
             }
