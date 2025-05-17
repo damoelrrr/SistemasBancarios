@@ -161,13 +161,16 @@ public class CrearCuenta {
             System.out.println("Error al guardar los datos: " + e.getMessage());
         }
     }
+
     public void cerrarScanner() {
         System.out.println("Finalizando programa. Gracias por usar nuestros servicios.");
-        scan.close();
+        System.exit(0);
     }
 
     public void cerrarPrincipio() {
-        scan.close();
+        System.out.println("Finalizando programa. Gracias por usar nuestros servicios.");
+        System.exit(0);
+
     }
 
 }
