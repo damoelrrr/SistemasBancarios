@@ -111,7 +111,7 @@ public class CrearCuenta {
         }
         System.out.println("Su número de cuenta es: " + numCuentaStr);
 
-//        guardarDatosEnArchivo();
+        guardarDatosEnArchivo();
     }
 
     public boolean iniciarSesion() {

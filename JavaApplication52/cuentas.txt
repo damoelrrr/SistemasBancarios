@@ -1,0 +1,9 @@
+Usuario: ismael
+Contraseña: 123
+Nombre: d d
+Documento: 123
+Correo: jfjf@gmail.com
+Edad: 23
+Teléfono: 3123567891
+Dirección: kra 13
+-----
