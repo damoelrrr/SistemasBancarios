@@ -7,3 +7,12 @@ Edad: 23
 Teléfono: 3123567891
 Dirección: kra 13
 -----
+Usuario: isam
+Contraseña: 123
+Nombre: w w
+Documento: 1234567890
+Correo: hdfb@gmail.com
+Edad: 23
+Teléfono: 1234567890
+Dirección: kra 15
+-----

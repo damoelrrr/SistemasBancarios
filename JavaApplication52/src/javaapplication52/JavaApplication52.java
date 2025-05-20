@@ -1,5 +1,8 @@
 package javaapplication52;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -7,6 +10,13 @@ import java.util.Scanner;
 import static javaapplication52.CuentaBancaria.buscarCuenta;
 import static javaapplication52.Grafo.buscarPersonaPorDocumento;
 import static javaapplication52.SistemaBancario.modificarDatosPersonales;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class JavaApplication52 {
 
@@ -16,6 +26,73 @@ public class JavaApplication52 {
         Grafo grafo = new Grafo();
         Queue<Persona> colaClientes = new LinkedList<>();
         RegistroVerificado cuenta = new RegistroVerificado();
+
+        JFrame ventana = new JFrame("Sistema Bancario");
+        ventana.setSize(1200, 600);
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.setLocationRelativeTo(null);
+        ventana.setLayout(new BorderLayout());
+
+        // Panel superior con botón "Entrar" a la izquierda y título al centro
+        JPanel panelSuperior = new JPanel(new BorderLayout());
+        panelSuperior.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JButton botonEntrar = new JButton("Entrar");
+        botonEntrar.setBounds(30, 30, 100, 25);
+        panelSuperior.add(botonEntrar, BorderLayout.WEST);
+
+        JLabel titulo = new JLabel("Bienvenido al Sistema Bancario", JLabel.CENTER);
+        titulo.setFont(new Font("Arial", Font.BOLD, 28));
+        panelSuperior.add(titulo, BorderLayout.CENTER);
+
+        ventana.add(panelSuperior, BorderLayout.NORTH);
+
+        // Panel central con botones de opciones
+        JPanel panelBotones = new JPanel(new GridLayout(4, 2, 20, 20));
+        panelBotones.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+
+        String[] opciones = {
+            "Crear cuenta",
+            "Consultar saldo",
+            "Depositar",
+            "Retirar",
+            "Solicitar préstamo",
+            "Guardar dinero",
+            "Ver reporte financiero",
+            "Salir"
+        };
+
+        for (String texto : opciones) {
+            JButton boton = new JButton(texto);
+            boton.setFont(new Font("Arial", Font.PLAIN, 16));
+            if (texto.equals("Salir")) {
+                boton.addActionListener(e -> System.exit(0));
+            } else {
+                boton.addActionListener(e -> {
+                    JOptionPane.showMessageDialog(ventana, "Función aún no implementada: " + texto);
+                });
+            }
+            panelBotones.add(boton);
+        }
+
+        ventana.add(panelBotones, BorderLayout.CENTER);
+
+        // Acción del botón "Entrar"
+        botonEntrar.addActionListener(e -> {
+            JFrame nuevaVentana = new JFrame("Nueva Página");
+            nuevaVentana.setSize(600, 400);
+            nuevaVentana.setLocationRelativeTo(null);
+            nuevaVentana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+            JLabel mensaje = new JLabel("¡Bienvenido a la nueva ventana!", JLabel.CENTER);
+            mensaje.setFont(new Font("Arial", Font.BOLD, 22));
+            nuevaVentana.add(mensaje);
+
+            nuevaVentana.setVisible(true);
+        });
+
+        // Mostrar ventana principal
+        ventana.setVisible(true);
 
         boolean sesionIniciada = false;
 
@@ -445,5 +522,6 @@ public class JavaApplication52 {
 
             }
         }
+        
     }
 }
